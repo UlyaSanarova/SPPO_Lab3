@@ -25,12 +25,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     auto homePath = QDir::homePath();
 
     dirModel = new TreeViewModel(this);
-    dirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+    dirModel->setFilter(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System | QDir::NoSymLinks);
     dirModel->setRootPath(homePath);
 
-    fileModel = new QFileSystemModel(this);
-    fileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
-    fileModel->setRootPath(homePath);
+    fileModel = new TableViewModel(this);
+    fileModel->setPath(homePath);
 
     treeView = new QTreeView();
     treeView->setModel(dirModel);
@@ -78,21 +77,19 @@ void MainWindow::on_selectionChangedSlot(const QItemSelection &selected, const Q
 
     auto path = dirModel->filePath(indexes.first());
     statusBar()->showMessage("Choosen Path: " + path);
-    tableView->setRootIndex(fileModel->setRootPath(path));
+    fileModel->setPath(path);
 }
 
 void MainWindow::on_calculationStrategyByFolder(bool checked)
 {
     if (checked) {
-        calculationStrategy.reset(new ByFolder_CalculationStrategy);
-        qDebug() << "MainWindow::on_calculationStrategyByFolder";
+        fileModel->setStrategy(std::make_shared<ByFolder_CalculationStrategy>());
     }
 }
 
 void MainWindow::on_calculationStrategyByFileType(bool checked)
 {
     if (checked) {
-        calculationStrategy.reset(new ByFileType_CalculationStrategy);
-        qDebug() << "MainWindow::on_calculationStrategyByFileType";
+        fileModel->setStrategy(std::make_shared<ByFileType_CalculationStrategy>());
     }
 }

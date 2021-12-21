@@ -7,7 +7,7 @@
 #include <QTreeView>
 #include <QTableView>
 #include <memory>
-#include "calculationstrategy.h"
+#include "tableviewmodel.h"
 
 class MainWindow : public QMainWindow
 {
@@ -25,11 +25,10 @@ private slots:
     void on_calculationStrategyByFileType(bool checked);
 
 private:
-    QFileSystemModel *fileModel;
+    TableViewModel *fileModel;
     QFileSystemModel *dirModel;
     QTreeView *treeView;
     QTableView *tableView;
-    std::shared_ptr<CalculationStrategy> calculationStrategy;
 };
 
 #endif // MAINWINDOW_H

@@ -14,6 +14,7 @@ SOURCES += \
     calculationstrategy.cpp \
     main.cpp \
     mainwindow.cpp \
+    tableviewmodel.cpp \
     treeviewmodel.cpp
  
 # Default rules for deployment. 
@@ -26,4 +27,5 @@ HEADERS += \
     byfolder_calculationstrategy.h \
     calculationstrategy.h \
     mainwindow.h \
+    tableviewmodel.h \
     treeviewmodel.h
