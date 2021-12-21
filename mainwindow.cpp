@@ -63,6 +63,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     viewTypeAction = viewTypeActions->addAction("Bar diagram");
     viewTypeAction->setCheckable(true);
     connect(viewTypeAction, &QAction::toggled, this, &MainWindow::on_viewTypeBar);
+    viewTypeAction = viewTypeActions->addAction("Pie diagram");
+    viewTypeAction->setCheckable(true);
+    connect(viewTypeAction, &QAction::toggled, this, &MainWindow::on_viewTypePie);
     menu->addActions(viewTypeActions->actions());
     menuBar()->addMenu(menu);
 
@@ -115,5 +118,12 @@ void MainWindow::on_viewTypeBar(bool checked)
 {
     if (checked) {
         dataView->setType(DataView::TypeBar);
+    }
+}
+
+void MainWindow::on_viewTypePie(bool checked)
+{
+    if (checked) {
+        dataView->setType(DataView::TypePie);
     }
 }

@@ -18,6 +18,7 @@ SOURCES += \
     dataview.cpp \
     main.cpp \
     mainwindow.cpp \
+    piediagramitem.cpp \
     tableviewitem.cpp \
     tableviewmodel.cpp \
     treeviewmodel.cpp
@@ -35,6 +36,7 @@ HEADERS += \
     dataview.h \
     dataviewitem.h \
     mainwindow.h \
+    piediagramitem.h \
     tableviewitem.h \
     tableviewmodel.h \
     treeviewmodel.h

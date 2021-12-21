@@ -17,7 +17,8 @@ public:
     {
         TypeNone,
         TypeTable,
-        TypeBar
+        TypeBar,
+        TypePie
     };
 
     void setType(Type type);

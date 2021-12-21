@@ -2,6 +2,7 @@
 #include <QTableView>
 #include "tableviewitem.h"
 #include "bardiagramitem.h"
+#include "piediagramitem.h"
 
 DataView::DataView(QWidget *parent) : QWidget(parent), m_type(TypeNone)
 {
@@ -25,6 +26,9 @@ void DataView::setType(Type type)
             break;
         case TypeBar:
             setItem(std::make_shared<BarDiagramItem>(this));
+            break;
+        case TypePie:
+            setItem(std::make_shared<PieDiagramItem>(this));
             break;
         }
     }

@@ -26,6 +26,7 @@ private slots:
 
     void on_viewTypeTable(bool checked);
     void on_viewTypeBar(bool checked);
+    void on_viewTypePie(bool checked);
 
 private:
     QFileSystemModel *dirModel;
