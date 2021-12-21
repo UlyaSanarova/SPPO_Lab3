@@ -1,6 +1,8 @@
 #include <iostream>
+#include <QApplication>
 #include "byfolder_calculationstrategy.h"
 #include "byfiletype_calculationstrategy.h"
+#include "mainwindow.h"
 
 void calculate(const QString &path, CalculationStrategy *strategy)
 {
@@ -19,12 +21,19 @@ void calculate(const QString &path, CalculationStrategy *strategy)
     }
 }
 
-int main()
+void testCalculation()
 {
     ByFolder_CalculationStrategy byFolder;
     calculate(".", &byFolder);
     printf("\n\n");
     ByFileType_CalculationStrategy byFileType;
     calculate(".", &byFileType);
-    return 0;
+}
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
 }

@@ -12,7 +12,8 @@ SOURCES += \
     byfiletype_calculationstrategy.cpp \
     byfolder_calculationstrategy.cpp \
     calculationstrategy.cpp \
-    main.cpp
+    main.cpp \
+    mainwindow.cpp
  
 # Default rules for deployment. 
 qnx: target.path = /tmp/$${TARGET}/bin 
@@ -22,4 +23,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     byfiletype_calculationstrategy.h \
     byfolder_calculationstrategy.h \
-    calculationstrategy.h
+    calculationstrategy.h \
+    mainwindow.h
