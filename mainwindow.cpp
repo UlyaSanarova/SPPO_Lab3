@@ -9,7 +9,12 @@
 #include <QTableView>
 #include <QHeaderView>
 #include <QStatusBar>
+#include <QMenu>
+#include <QMenuBar>
+#include <QDebug>
 #include "treeviewmodel.h"
+#include "byfolder_calculationstrategy.h"
+#include "byfiletype_calculationstrategy.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -41,10 +46,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     splitter->addWidget(tableView);
     setCentralWidget(splitter);
 
+    auto menu = new QMenu(QString("Calculation strategy"), menuBar());
+    auto calculationStrategyActions = new QActionGroup(menu);
+    auto calculationStrategyAction = calculationStrategyActions->addAction("By folder");
+    calculationStrategyAction->setCheckable(true);
+    calculationStrategyAction->setChecked(true);
+    connect(calculationStrategyAction, &QAction::toggled, this, &MainWindow::on_calculationStrategyByFolder);
+    calculationStrategyAction = calculationStrategyActions->addAction("By file type");
+    calculationStrategyAction->setCheckable(true);
+    connect(calculationStrategyAction, &QAction::toggled, this, &MainWindow::on_calculationStrategyByFileType);
+    menu->addActions(calculationStrategyActions->actions());
+    menuBar()->addMenu(menu);
+
     QItemSelection toggleSelection;
     auto homeIndex = dirModel->index(homePath);
     toggleSelection.select(homeIndex, homeIndex);
     selectionModel->select(toggleSelection, QItemSelectionModel::Toggle);
+
+    on_calculationStrategyByFolder(true);
 }
 
 MainWindow::~MainWindow()
@@ -60,4 +79,20 @@ void MainWindow::on_selectionChangedSlot(const QItemSelection &selected, const Q
     auto path = dirModel->filePath(indexes.first());
     statusBar()->showMessage("Choosen Path: " + path);
     tableView->setRootIndex(fileModel->setRootPath(path));
+}
+
+void MainWindow::on_calculationStrategyByFolder(bool checked)
+{
+    if (checked) {
+        calculationStrategy.reset(new ByFolder_CalculationStrategy);
+        qDebug() << "MainWindow::on_calculationStrategyByFolder";
+    }
+}
+
+void MainWindow::on_calculationStrategyByFileType(bool checked)
+{
+    if (checked) {
+        calculationStrategy.reset(new ByFileType_CalculationStrategy);
+        qDebug() << "MainWindow::on_calculationStrategyByFileType";
+    }
 }
