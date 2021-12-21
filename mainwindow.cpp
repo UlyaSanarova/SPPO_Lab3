@@ -28,21 +28,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     dirModel->setFilter(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System | QDir::NoSymLinks);
     dirModel->setRootPath(homePath);
 
-    fileModel = new TableViewModel(this);
-    fileModel->setPath(homePath);
-
     treeView = new QTreeView();
     treeView->setModel(dirModel);
     treeView->expandAll();
     auto selectionModel = treeView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &MainWindow::on_selectionChangedSlot);
 
-    tableView = new QTableView();
-    tableView->setModel(fileModel);
+    dataView = new DataView();
+    dataView->setPath(homePath);
 
     auto splitter = new QSplitter(parent);
     splitter->addWidget(treeView);
-    splitter->addWidget(tableView);
+    splitter->addWidget(dataView);
     setCentralWidget(splitter);
 
     auto menu = new QMenu(QString("Calculation strategy"), menuBar());
@@ -57,12 +54,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     menu->addActions(calculationStrategyActions->actions());
     menuBar()->addMenu(menu);
 
+    menu = new QMenu(QString("View type"), menuBar());
+    auto viewTypeActions = new QActionGroup(menu);
+    auto viewTypeAction = viewTypeActions->addAction("Table");
+    viewTypeAction->setCheckable(true);
+    viewTypeAction->setChecked(true);
+    connect(viewTypeAction, &QAction::toggled, this, &MainWindow::on_viewTypeTable);
+    viewTypeAction = viewTypeActions->addAction("Bar diagram");
+    viewTypeAction->setCheckable(true);
+    connect(viewTypeAction, &QAction::toggled, this, &MainWindow::on_viewTypeBar);
+    menu->addActions(viewTypeActions->actions());
+    menuBar()->addMenu(menu);
+
     QItemSelection toggleSelection;
     auto homeIndex = dirModel->index(homePath);
     toggleSelection.select(homeIndex, homeIndex);
     selectionModel->select(toggleSelection, QItemSelectionModel::Toggle);
 
     on_calculationStrategyByFolder(true);
+    on_viewTypeTable(true);
 }
 
 MainWindow::~MainWindow()
@@ -77,19 +87,33 @@ void MainWindow::on_selectionChangedSlot(const QItemSelection &selected, const Q
 
     auto path = dirModel->filePath(indexes.first());
     statusBar()->showMessage("Choosen Path: " + path);
-    fileModel->setPath(path);
+    dataView->setPath(path);
 }
 
 void MainWindow::on_calculationStrategyByFolder(bool checked)
 {
     if (checked) {
-        fileModel->setStrategy(std::make_shared<ByFolder_CalculationStrategy>());
+        dataView->setStrategy(std::make_shared<ByFolder_CalculationStrategy>());
     }
 }
 
 void MainWindow::on_calculationStrategyByFileType(bool checked)
 {
     if (checked) {
-        fileModel->setStrategy(std::make_shared<ByFileType_CalculationStrategy>());
+        dataView->setStrategy(std::make_shared<ByFileType_CalculationStrategy>());
+    }
+}
+
+void MainWindow::on_viewTypeTable(bool checked)
+{
+    if (checked) {
+        dataView->setType(DataView::TypeTable);
+    }
+}
+
+void MainWindow::on_viewTypeBar(bool checked)
+{
+    if (checked) {
+        dataView->setType(DataView::TypeBar);
     }
 }

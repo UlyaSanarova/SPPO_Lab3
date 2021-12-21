@@ -17,19 +17,9 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const override;
 
-    void setStrategy(const std::shared_ptr<CalculationStrategy> &strategy);
-
-    std::shared_ptr<CalculationStrategy> getStrategy() const;
-
-    void setPath(const QString &path);
-
-    QString getPath() const;
-
-    void reload();
+    void setData(const QList<QPair<QString, double>> &data);
 
 private:
-    std::shared_ptr<CalculationStrategy> m_calculationStrategy;
-    QString m_path;
     QList<QPair<QString, double>> m_data;
 };
 

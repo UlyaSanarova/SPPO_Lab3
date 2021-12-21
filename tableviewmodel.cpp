@@ -49,35 +49,9 @@ QVariant TableViewModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TableViewModel::setStrategy(const std::shared_ptr<CalculationStrategy> &strategy)
+void TableViewModel::setData(const QList<QPair<QString, double>> &data)
 {
-    m_calculationStrategy = strategy;
-    reload();
-}
-
-std::shared_ptr<CalculationStrategy> TableViewModel::getStrategy() const
-{
-    return m_calculationStrategy;
-}
-
-void TableViewModel::setPath(const QString &path)
-{
-    if (m_path != path) {
-        m_path = path;
-        reload();
-    }
-}
-
-QString TableViewModel::getPath() const
-{
-    return m_path;
-}
-
-void TableViewModel::reload()
-{
-    if (m_calculationStrategy) {
-        beginResetModel();
-        m_data = m_calculationStrategy->calculate(m_path);
-        endResetModel();
-    }
+    beginResetModel();
+    m_data = data;
+    endResetModel();
 }

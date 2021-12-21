@@ -7,7 +7,7 @@
 #include <QTreeView>
 #include <QTableView>
 #include <memory>
-#include "tableviewmodel.h"
+#include "dataview.h"
 
 class MainWindow : public QMainWindow
 {
@@ -24,11 +24,13 @@ private slots:
     void on_calculationStrategyByFolder(bool checked);
     void on_calculationStrategyByFileType(bool checked);
 
+    void on_viewTypeTable(bool checked);
+    void on_viewTypeBar(bool checked);
+
 private:
-    TableViewModel *fileModel;
     QFileSystemModel *dirModel;
     QTreeView *treeView;
-    QTableView *tableView;
+    DataView *dataView;
 };
 
 #endif // MAINWINDOW_H
