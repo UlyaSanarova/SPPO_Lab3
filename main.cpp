@@ -1,5 +1,6 @@
 #include <iostream>
 #include "byfolder_calculationstrategy.h"
+#include "byfiletype_calculationstrategy.h"
 
 void calculate(const QString &path, CalculationStrategy *strategy)
 {
@@ -8,11 +9,7 @@ void calculate(const QString &path, CalculationStrategy *strategy)
         if (p.second == 0.0)
             continue;
 
-        if (p.first == ".") {
-            printf("Current dir");
-        } else {
-            printf(p.first.toStdString().data());
-        }
+        printf(p.first.toStdString().data());
 
         if (p.second < 0.01) {
             printf(": < 0.01%%\n");
@@ -26,5 +23,8 @@ int main()
 {
     ByFolder_CalculationStrategy byFolder;
     calculate(".", &byFolder);
+    printf("\n\n");
+    ByFileType_CalculationStrategy byFileType;
+    calculate(".", &byFileType);
     return 0;
 }
