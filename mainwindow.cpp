@@ -9,6 +9,7 @@
 #include <QTableView>
 #include <QHeaderView>
 #include <QStatusBar>
+#include "treeviewmodel.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -18,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     auto homePath = QDir::homePath();
 
-    dirModel = new QFileSystemModel(this);
+    dirModel = new TreeViewModel(this);
     dirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
     dirModel->setRootPath(homePath);
 

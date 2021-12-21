@@ -13,7 +13,8 @@ SOURCES += \
     byfolder_calculationstrategy.cpp \
     calculationstrategy.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    treeviewmodel.cpp
  
 # Default rules for deployment. 
 qnx: target.path = /tmp/$${TARGET}/bin 
@@ -24,4 +25,5 @@ HEADERS += \
     byfiletype_calculationstrategy.h \
     byfolder_calculationstrategy.h \
     calculationstrategy.h \
-    mainwindow.h
+    mainwindow.h \
+    treeviewmodel.h
