@@ -16,6 +16,7 @@ SOURCES += \
     byfolder_calculationstrategy.cpp \
     calculationstrategy.cpp \
     dataview.cpp \
+    diagramitem.cpp \
     main.cpp \
     mainwindow.cpp \
     piediagramitem.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     calculationstrategy.h \
     dataview.h \
     dataviewitem.h \
+    diagramitem.h \
     mainwindow.h \
     piediagramitem.h \
     tableviewitem.h \

@@ -1,16 +1,13 @@
 #include "piediagramitem.h"
 
-PieDiagramItem::PieDiagramItem(QWidget *parent)
+PieDiagramItem::PieDiagramItem(QWidget *parent) : DiagramItem(parent)
 {
-    m_view = std::make_shared<QChartView>(parent);
 }
 
-void PieDiagramItem::setData(const QList<QPair<QString, double>> &data)
+//void PieDiagramItem::setupChart(QChart *chart, const QList<QPair<QString, double>> &data)
+QAbstractSeries *PieDiagramItem::newSeries(const QList<QPair<QString, double>> &data) const
 {
-    auto chart = new QChart();
-    chart->legend()->setAlignment(Qt::AlignRight);
-    chart->legend()->show();
-    auto series = new QPieSeries(chart);
+    auto series = new QPieSeries();
     for (const auto &p : data) {
         if (p.second == 0)
             continue;
@@ -24,12 +21,5 @@ void PieDiagramItem::setData(const QList<QPair<QString, double>> &data)
         slice->setLabelVisible();
     }
     series->setPieSize(0.75);
-    chart->addSeries(series);
-
-    m_view->setChart(chart);
-}
-
-QWidget *PieDiagramItem::getView() const
-{
-    return m_view.get();
+    return series;
 }

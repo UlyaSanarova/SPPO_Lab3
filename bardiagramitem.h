@@ -1,27 +1,28 @@
 #ifndef BARDIAGRAMITEM_H
 #define BARDIAGRAMITEM_H
 
-#include "tableviewmodel.h"
-#include "dataviewitem.h"
+#include "diagramitem.h"
 #include <QtCharts/QBarSet>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QBarCategoryAxis>
-#include <QtCharts/QChartView>
 #include <QtCharts/QValueAxis>
 
 using namespace QtCharts;
 
-class BarDiagramItem : public DataViewItem
+class BarDiagramItem : public DiagramItem
 {
 public:
     BarDiagramItem(QWidget *parent = nullptr);
 
-    void setData(const QList<QPair<QString, double>> &data) override;
+protected:
+    //void setupChart(QChart *chart, const QList<QPair<QString, double>> &data) override;
 
-    QWidget *getView() const override;
+    QAbstractSeries *newSeries(const QList<QPair<QString, double>> &data) const override;
+
+    void setupAxis(QAbstractSeries *series) override;
 
 private:
-    std::shared_ptr<QChartView> m_view;
+    QValueAxis *m_axis;
 };
 
 #endif // BARDIAGRAMITEM_H
