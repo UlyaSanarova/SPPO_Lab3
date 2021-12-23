@@ -1,16 +1,15 @@
 #include "bardiagramitem.h"
 
-BarDiagramItem::BarDiagramItem(QWidget *parent)
+BarDiagramItem::BarDiagramItem(QWidget *parent) : DiagramItem(parent)
 {
-    m_view = std::make_shared<QChartView>(parent);
+    m_axis = new QValueAxis();
+    m_axis->setRange(0, 100);
 }
 
-void BarDiagramItem::setData(const QList<QPair<QString, double>> &data)
+//void BarDiagramItem::setupChart(QChart *chart, const QList<QPair<QString, double>> &data)
+QAbstractSeries *BarDiagramItem::newSeries(const QList<QPair<QString, double>> &data) const
 {
-    auto chart = new QChart();
-    chart->legend()->setAlignment(Qt::AlignRight);
-    chart->legend()->show();
-    auto series = new QBarSeries(chart);
+    auto series = new QBarSeries();
     for (const auto &p : data) {
         if (p.second == 0)
             continue;
@@ -24,17 +23,12 @@ void BarDiagramItem::setData(const QList<QPair<QString, double>> &data)
         set->append(p.second);
         series->append(set);
     }
-    chart->addSeries(series);
-
-    auto y = new QValueAxis();
-    y->setRange(0, 100);
-    chart->addAxis(y, Qt::AlignLeft);
-    series->attachAxis(y);
-
-    m_view->setChart(chart);
+    return series;
 }
 
-QWidget *BarDiagramItem::getView() const
+void BarDiagramItem::setupAxis(QAbstractSeries *series)
 {
-    return m_view.get();
+    m_chart->removeAxis(m_axis);
+    m_chart->addAxis(m_axis, Qt::AlignLeft);
+    series->attachAxis(m_axis);
 }
